@@ -1,0 +1,272 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const testimonials = [
+  {
+    title: "科技新貴",
+    beforeAfter: false,
+    quote: "透過第一次色彩課程的體驗，對穿搭更有興趣，報名了個人色彩規劃的服務，找到適合自己的色彩，更透過短短的2小時學到基礎色彩搭配的方法，即使運用原本的衣服，也能搭配出不一樣的風格。身邊的同事朋友對我的改變給予極大的鼓勵，我也開始對自己的形象愈來愈有自信。",
+    role: "職場新鮮人",
+    image: "/images/after1.jpg"
+  },
+  {
+    title: "健康管理中階主管",
+    beforeAfter: false,
+    quote: "透過色彩測色及彩妝、穿搭的課程，找到屬於自己的個人色彩，原來喜歡的顏色不一定適合自己，透過適合的色彩反而能將內在的我顯現出來，還可以讓自己看起來氣色更好、更年輕，而且選對衣服的款式，不必用大墊肩、大紅的口紅，一樣能夠有質感的展現我的專業形象。",
+    role: "專業人士|中階主管",
+    image: "/images/after2.jpg"
+  },
+  {
+    title: "醫美中心企業主",
+    beforeAfter: false,
+    quote: "透過完整的個人形象定位服務，有策略的替個人及品牌間找到適合的風格，也重新檢視了現有的衣櫥狀況，並且精準的定位了適合在日常工作、媒體曝光、商務活動時，可以使用的顏色、款式、搭配風格。快速的讓我在每一個場合做切換時可以不必費心也都有不同卻又附合品牌形象的個人風格。",
+    role: "企業主|高階主管",
+    image: "/images/after3.jpg"
+  },
+  {
+    title: "二代企業接班",
+    beforeAfter: false,
+    quote: "形象的提昇讓我在面對需要帶領資深員工時，更有自信及說服力。也覺得自己更有魅力!",
+    role: "企業主|高階主管",
+    image: "/images/after4.jpg"
+  },
+  {
+    title: "年輕但資深的財經管理者",
+    beforeAfter: false,
+    quote: "找到自己的色彩讓我不必裝成熟也有專業感，能夠穿出自己的風格，並且會搭配真開心!",
+    role: "專業人士|中階主管",
+    image: "/images/after5.jpg"
+  },
+  {
+    title: "健康顧問",
+    beforeAfter: false,
+    quote: "瘦下來後因為不會搭配覺得穿舒服就好，穿上自己喜歡但不會搭的衣服，覺得自己好美!",
+    role: "專業人士|中階主管",
+    image: "/images/after6.jpg"
+  },
+  {
+    title: "產險高階主管",
+    beforeAfter: false,
+    quote: "習慣用黑色來顯示專業感，沒想到適合自己的顏色穿業了也可以有親切也專業的風格!",
+    role: "企業主|高階主管",
+    image: "/images/after7.jpg"
+  }
+];
+
+const categories = [
+  { name: '全部', filter: 'all' },
+  { name: '職場新鮮人', filter: '新鮮人' },
+  { name: '專業人士', filter: '專業人士' },
+  { name: '企業主', filter: '企業主' }
+];
+---
+
+<Layout title="學員分享 - 好圈圈好感形象學苑">
+  <style>
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      border: 1px solid #f3f4f6;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .testimonial-content {
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      position: relative;
+    }
+    
+    .testimonial-content::before {
+      content: '"';
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 3rem;
+      color: rgba(236, 72, 153, 0.1);
+      opacity: 0.2;
+    }
+    
+    .testimonial-meta {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .testimonial-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #333;
+      margin-right: 1rem;
+    }
+    
+    .testimonial-role {
+      color: #666;
+      font-size: 0.875rem;
+    }
+    
+    .testimonial-quote {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+    
+    .category-button {
+      padding: 0.5rem 1.5rem;
+      border-radius: 2rem;
+      background: white;
+      color: #333;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
+    }
+    
+    .category-button:hover {
+      background: #f8f9fa;
+      transform: translateY(-2px);
+      border-color: #e5e7eb;
+    }
+    
+    .active-category {
+      background: linear-gradient(to right, #ec4899, #9333ea);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .section-heading {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-heading::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(to right, #ec4899, #9333ea);
+      border-radius: 3px;
+    }
+
+    .testimonial-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(236, 72, 153, 0.3);
+    }
+
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-info {
+      margin-left: 1rem;
+    }
+  </style>
+
+  <section class="bg-gradient-to-r from-pink-500 to-purple-600 text-white py-16 relative">
+    <div class="absolute inset-0 z-0 opacity-20">
+      <img src="/images/after1.jpg" alt="學員分享背景" class="w-full h-full object-cover" />
+    </div>
+    <div class="container mx-auto px-4 text-center relative z-10">
+      <h1 class="text-4xl font-bold mb-4">學員分享</h1>
+      <p class="text-lg max-w-3xl mx-auto">
+        真實的轉變故事，見證好圈圈如何幫助職場人士從內而外提升形象
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="mb-12">
+        <div class="flex flex-wrap justify-center gap-4">
+          {categories.map(category => (
+            <button class="category-button">{category.name}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {testimonials.map(testimonial => (
+          <div class="card">
+            <div class="testimonial-content">
+              <div class="testimonial-header">
+                <img src={testimonial.image} alt={testimonial.title} class="testimonial-image" />
+                <div class="testimonial-info">
+                  <h3 class="testimonial-title text-pink-600">{testimonial.title}</h3>
+                  <p class="testimonial-role">{testimonial.role}</p>
+                </div>
+              </div>
+              <blockquote class="testimonial-quote">
+                "{testimonial.quote}"
+              </blockquote>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">形象改變前後對比</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex space-x-4 mb-4">
+            <div class="w-1/2">
+              <p class="text-center mb-2 text-sm font-medium text-gray-500">改變前</p>
+              <img src="/images/before1.jpg" alt="改變前" class="w-full h-48 object-cover rounded-lg" />
+            </div>
+            <div class="w-1/2">
+              <p class="text-center mb-2 text-sm font-medium text-gray-500">改變後</p>
+              <img src="/images/after1.jpg" alt="改變後" class="w-full h-48 object-cover rounded-lg" />
+            </div>
+          </div>
+          <h3 class="text-lg font-semibold text-pink-600">職場新鮮人的蛻變</h3>
+          <p class="text-gray-600 text-sm">透過色彩分析和穿搭指導，展現專業自信</p>
+        </div>
+        
+        <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex space-x-4 mb-4">
+            <div class="w-1/2">
+              <p class="text-center mb-2 text-sm font-medium text-gray-500">改變前</p>
+              <img src="/images/before2.jpg" alt="改變前" class="w-full h-48 object-cover rounded-lg" />
+            </div>
+            <div class="w-1/2">
+              <p class="text-center mb-2 text-sm font-medium text-gray-500">改變後</p>
+              <img src="/images/after2.jpg" alt="改變後" class="w-full h-48 object-cover rounded-lg" />
+            </div>
+          </div>
+          <h3 class="text-lg font-semibold text-pink-600">專業人士的形象提升</h3>
+          <p class="text-gray-600 text-sm">從基本穿搭到高階形象管理，全方位提升</p>
+        </div>
+        
+        <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex space-x-4 mb-4">
+            <div class="w-1/2">
+              <p class="text-center mb-2 text-sm font-medium text-gray-500">改變前</p>
+              <img src="/images/before3.jpg" alt="改變前" class="w-full h-48 object-cover rounded-lg" />
+            </div>
+            <div class="w-1/2">
+              <p class="text-center mb-2 text-sm font-medium text-gray-500">改變後</p>
+              <img src="/images/after3.jpg" alt="改變後" class="w-full h-48 object-cover rounded-lg" />
+            </div>
+          </div>
+          <h3 class="text-lg font-semibold text-pink-600">企業主的領導形象塑造</h3>
+          <p class="text-gray-600 text-sm">打造專屬風格，展現領導魅力與品牌一致性</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

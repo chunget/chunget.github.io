@@ -1,0 +1,195 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const teamMembers = [
+  {
+    name: '王美美',
+    title: '創辦人兼首席形象顧問',
+    bio: '擁有超過15年的形象顧問經驗，曾為多家知名企業提供形象管理服務。專精於色彩分析、穿搭指導和個人品牌建立。',
+  },
+  {
+    name: '林雅雅',
+    title: '資深造型師',
+    bio: '前知名時尚雜誌造型總監，擅長打造專業人士的商務形象，協助客戶在不同場合展現最佳狀態。',
+  },
+  {
+    name: '張小小',
+    title: '專業彩妝師',
+    bio: '國際認證彩妝師，專長於商務妝容與個人風格妝容設計，讓每位客戶都能展現自然而專業的形象。',
+  },
+  {
+    name: '李大大',
+    title: '企業形象培訓師',
+    bio: '擁有豐富的企業培訓經驗，協助多家知名企業提升團隊形象，專注於企業形象統一與員工個人品牌建立。',
+  }
+];
+
+const milestones = [
+  { year: '2010', title: '創立初期', description: '好圈圈形象學苑成立，開始提供個人形象諮詢服務。' },
+  { year: '2012', title: '服務擴展', description: '擴展服務範圍，開始提供企業形象培訓課程。' },
+  { year: '2015', title: '品牌升級', description: '品牌全面升級，成為「好圈圈好感形象學苑」，擴大服務範圍。' },
+  { year: '2018', title: '國際認證', description: '獲得國際形象顧問協會認證，提升專業服務水準。' },
+  { year: '2020', title: '線上服務', description: '推出線上形象諮詢服務，突破地域限制。' },
+  { year: '2023', title: '持續成長', description: '服務客戶突破1000家，成為台灣領先的形象管理顧問公司。' }
+];
+---
+
+<Layout title="關於我們 - 好圈圈好感形象學苑">
+  <section class="bg-gradient-to-r from-pink-500 to-purple-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl font-bold mb-4">關於我們</h1>
+      <p class="text-lg max-w-3xl mx-auto">
+        好圈圈好感形象學苑致力於幫助職場人士建立專業形象，提升個人魅力
+      </p>
+    </div>
+  </section>
+
+  <!-- 我們的故事 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl font-bold mb-6 text-gray-800">我們的故事</h2>
+          <p class="text-gray-600 mb-4">
+            好圈圈好感形象學苑成立於2010年，源於創辦人王美美對形象管理的熱情與專業。在多年的時尚產業工作經驗中，她發現許多專業人士雖然在自己的領域非常出色，但往往忽略了個人形象對職業發展的重要性。
+          </p>
+          <p class="text-gray-600 mb-4">
+            帶著「讓每個人都能展現最佳形象」的使命，好圈圈形象學苑開始提供個人形象諮詢服務，幫助職場人士建立符合自身特質的專業形象。隨著服務範圍的擴大，我們逐漸發展出一套完整的形象管理系統，涵蓋個人色彩分析、穿搭指導、儀態培訓等多元服務。
+          </p>
+          <p class="text-gray-600">
+            如今，好圈圈好感形象學苑已成為台灣領先的形象管理顧問公司，服務對象包括各行各業的專業人士、企業主與企業團隊。我們相信，良好的形象不僅能提升個人自信，更能為職業發展創造更多機會。
+          </p>
+        </div>
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+          </div>
+          <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-pink-100 rounded-lg -z-10"></div>
+          <div class="absolute -top-6 -left-6 w-48 h-48 bg-purple-100 rounded-lg -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 我們的使命與價值觀 -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-12 text-center text-gray-800">我們的使命與價值觀</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-pink-100 rounded-bl-full -z-0"></div>
+          <div class="relative z-10">
+            <div class="text-pink-600 mb-4">
+              <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1zm-5 8.274l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L5 10.274zm10 0l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L15 10.274z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">使命</h3>
+            <p class="text-gray-600">
+              幫助每個人發現並展現最佳的自我形象，提升職場競爭力與個人自信。
+            </p>
+          </div>
+        </div>
+        
+        <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-purple-100 rounded-bl-full -z-0"></div>
+          <div class="relative z-10">
+            <div class="text-purple-600 mb-4">
+              <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">願景</h3>
+            <p class="text-gray-600">
+              成為亞洲領先的形象管理顧問公司，引領形象管理的專業標準與創新發展。
+            </p>
+          </div>
+        </div>
+        
+        <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-pink-100 rounded-bl-full -z-0"></div>
+          <div class="relative z-10">
+            <div class="text-pink-600 mb-4">
+              <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">核心價值</h3>
+            <p class="text-gray-600">
+              專業、創新、尊重個性、持續成長，我們相信每個人都有獨特的魅力與風格。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 我們的團隊 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-12 text-center text-gray-800">專業團隊</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {teamMembers.map(member => (
+          <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+            <div class="p-6">
+              <h3 class="text-xl font-semibold text-gray-800 mb-1">{member.name}</h3>
+              <p class="text-pink-600 text-sm mb-4">{member.title}</p>
+              <p class="text-gray-600 text-sm">{member.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 成長歷程 -->
+  <section class="py-16 bg-gray-50 relative">
+    <div class="container mx-auto px-4 relative z-10">
+      <h2 class="text-3xl font-bold mb-12 text-center text-gray-800">成長歷程</h2>
+      <div class="relative">
+        <!-- 時間軸線 -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-pink-500 to-purple-600 z-0"></div>
+        
+        <div class="space-y-12">
+          {milestones.map((milestone, index) => (
+            <div class={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+              <div class={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
+                <h3 class="text-xl font-bold text-gray-800 mb-1">{milestone.title}</h3>
+                <p class="text-gray-600">{milestone.description}</p>
+              </div>
+              
+              <div class="w-2/12 flex justify-center">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold z-10">
+                  {milestone.year}
+                </div>
+              </div>
+              
+              <div class="w-5/12"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 合作夥伴 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-12 text-center text-gray-800">合作夥伴</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center justify-center h-32">
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center justify-center h-32">
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center justify-center h-32">
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center justify-center h-32">
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center justify-center h-32">
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg flex items-center justify-center h-32">
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

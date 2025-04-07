@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+const contentPath = join(process.cwd(), 'content.json');
+const content = JSON.parse(readFileSync(contentPath, 'utf-8'));
+---
+
+<Layout>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">{content.title}</h1>
+    
+    <div class="prose max-w-none">
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="space-y-4">
+          {content.text.split('\n').map((paragraph, index) => (
+            <p key={index} class="text-gray-800 leading-relaxed">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
