@@ -10,14 +10,16 @@ export { renderers } from '../renderers.mjs';
 const $$Content = createComponent(($$result, $$props, $$slots) => {
   try {
     const contentPath = join(process.cwd(), "content.json");
-    const content2 = JSON.parse(readFileSync(contentPath, "utf-8")).content;
-    if (!content2) {
+    const contentData = JSON.parse(readFileSync(contentPath, "utf-8"));
+    const content2 = contentData.content;
+    if (!content2 || !content2.title || !content2.text) {
       throw new Error("Content data not found");
     }
+    const paragraphs2 = content2.text.split("\n");
   } catch (error) {
     console.error("Error reading content.json:", error);
   }
-  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, {}, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="container mx-auto px-4 py-8"> <h1 class="text-3xl font-bold mb-6">${content.title}</h1> <div class="prose max-w-none"> <div class="bg-white rounded-lg shadow-lg p-6"> <div class="space-y-4"> ${content.text && content.text.split("\n").map((paragraph, index) => renderTemplate`<p${addAttribute(index, "key")} class="text-gray-800 leading-relaxed"> ${paragraph} </p>`)} </div> </div> </div> </div> ` })}`;
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, {}, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="container mx-auto px-4 py-8"> <h1 class="text-3xl font-bold mb-6">${content.title}</h1> <div class="prose max-w-none"> <div class="bg-white rounded-lg shadow-lg p-6"> <div class="space-y-4"> ${paragraphs.map((paragraph, index) => renderTemplate`<p${addAttribute(index, "key")} class="text-gray-800 leading-relaxed"> ${paragraph} </p>`)} </div> </div> </div> </div> ` })}`;
 }, "/Users/jillchung/CascadeProjects/chunget.github.io/src/pages/content.astro", void 0);
 
 const $$file = "/Users/jillchung/CascadeProjects/chunget.github.io/src/pages/content.astro";
