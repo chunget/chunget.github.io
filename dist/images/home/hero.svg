@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000" height="300" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg">
+    <!-- Hooo image logo -->
+    <g transform="translate(50, 50)">
+        <path d="M0 0c0 0 50 0 100 0s100 50 150 50 100-50 150-50 100 0 150 0" fill="none" stroke="#9c0f37" stroke-width="3"/>
+        <text x="300" y="100" font-family="Arial" font-size="48" fill="#9c0f37">好圈圈好感形象學苑</text>
+        <text x="250" y="150" font-family="Arial" font-size="24" fill="#9c0f37">Image Consultant / Personal Color Curator</text>
+    </g>
+</svg>

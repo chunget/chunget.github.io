@@ -3,8 +3,18 @@ import Layout from '../layouts/Layout.astro';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-const contentPath = join(process.cwd(), 'content.json');
-const content = JSON.parse(readFileSync(contentPath, 'utf-8'));
+try {
+  const contentPath = join(process.cwd(), 'content.json');
+  const content = JSON.parse(readFileSync(contentPath, 'utf-8')).content;
+
+  if (!content) {
+    throw new Error('Content data not found');
+  }
+} catch (error) {
+  console.error('Error reading content.json:', error);
+  const content = {};
+}
+
 ---
 
 <Layout>
@@ -14,7 +24,7 @@ const content = JSON.parse(readFileSync(contentPath, 'utf-8'));
     <div class="prose max-w-none">
       <div class="bg-white rounded-lg shadow-lg p-6">
         <div class="space-y-4">
-          {content.text.split('\n').map((paragraph, index) => (
+          {content.text && content.text.split('\n').map((paragraph, index) => (
             <p key={index} class="text-gray-800 leading-relaxed">
               {paragraph}
             </p>
