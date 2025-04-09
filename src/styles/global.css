@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+@layer base {
+  html {
+    font-family: 'Noto Sans TC', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-neutral-50 text-neutral-900;
+  }
+}
+
+@layer components {
+  .container {
+    @apply px-4 mx-auto max-w-7xl;
+  }
+
+  .btn {
+    @apply inline-block px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-400 text-white hover:bg-primary-500 hover:shadow-lg hover:shadow-primary-200;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-500 text-white hover:bg-secondary-600 hover:shadow-lg hover:shadow-secondary-200;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary-400 text-primary-400 hover:bg-primary-50;
+  }
+
+  .heading-gradient {
+    @apply bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent;
+  }
+
+  .nav-link {
+    @apply text-neutral-600 hover:text-primary-400 transition-colors;
+  }
+}
