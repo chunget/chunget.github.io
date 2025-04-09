@@ -1,0 +1,270 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+const pageTitle = "好感形象派對 | Hooo";
+const pageDescription = "穿出競爭力，玩出影響力！一場專屬於妳的形象派對，從視覺、觸覺到風格，幫助你全面提升形象好感力。";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <main class="container mx-auto px-4 py-8 min-h-screen">
+    <!-- 頁面標題區 -->
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-burgundy mb-4">好感形象派對</h1>
+      <p class="text-xl text-gray-600">穿出競爭力，玩出影響力！</p>
+      <p class="text-xl text-gray-600 mb-8">一場專屬於妳的形象派對</p>
+    </div>
+
+    <!-- 活動簡介 -->
+    <section class="mb-16">
+      <div class="max-w-3xl mx-auto">
+        <p class="text-gray-600 leading-relaxed mb-6">
+          這是一場結合趣味互動、實用教學與專業指導的活動，幫助妳在工作、社交或商業場合中展現最好的自己。活動中不僅分享形象提升的技巧，更融入派對般的輕鬆氛圍，讓學習充滿樂趣，真正做到「玩中學」。透過專業指導，深入探索屬於妳的形象密碼，從魅力色彩、完美髮型到日常妝容與穿搭技巧，全面打造自信光彩，讓妳在職場與生活中都散發迷人魅力！
+        </p>
+      </div>
+    </section>
+
+    <!-- 適合對象 -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-burgundy mb-4">適合對象</h2>
+      <div class="max-w-2xl mx-auto text-gray-600">
+        <p>
+          適合希望提升職場或生活魅力的女性。無論妳是職場菁英、全職媽媽，或是熱愛追求美好生活的女性，這場活動都能幫助妳發掘並展現專屬於自己的魅力！
+        </p>
+      </div>
+    </section>
+
+    <!-- 活動特色 -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-burgundy mb-8">活動特色</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">互動式體驗設計</h3>
+          <p class="text-gray-600">
+            3小時 x 3主題，打造全新2.0版的自己<br>
+            高度互動性：每個環節都設計實作與互動<br>
+            專業實用內容：簡單易學，立即運用
+          </p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">姐妹共學</h3>
+          <p class="text-gray-600">
+            好友結伴同行，共同學習與成長<br>
+            讓友誼更加深厚長久
+          </p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">專業團隊</h3>
+          <p class="text-gray-600">
+            圈圈：好感力教練<br>
+            Jill：健康管理教練<br>
+            Cindy：花藝教練<br>
+            Wesley：髮型教練
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 活動主題 -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-burgundy mb-8">活動主題</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 5月主題 -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">5月主題 | 穿出你的競爭力</h3>
+          <p class="text-gray-600 mb-4">從視覺進化：第一印象只有一次</p>
+          <ul class="list-disc list-inside text-gray-600 space-y-2">
+            <li>韓國服裝色彩鑑定&規劃</li>
+            <li>專屬髮型指導</li>
+            <li>穿搭技巧實戰</li>
+          </ul>
+        </div>
+
+        <!-- 6月主題 -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">6月主題 | 從內而外綻放魅力</h3>
+          <p class="text-gray-600 mb-4">從觸覺覺察：讓美好從內心綻放</p>
+          <ul class="list-disc list-inside text-gray-600 space-y-2">
+            <li>覺察式花藝DIY</li>
+            <li>韓國彩妝色彩鑑定&規劃</li>
+            <li>減法彩妝教學</li>
+          </ul>
+        </div>
+
+        <!-- 7月主題 -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">7月主題 | 讓你的形象被記住</h3>
+          <p class="text-gray-600 mb-4">打造你的個人風格</p>
+          <ul class="list-disc list-inside text-gray-600 space-y-2">
+            <li>個人風格探索</li>
+            <li>主題式穿搭技巧</li>
+            <li>專屬個人風格調香</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 活動資訊 -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-burgundy mb-8">活動資訊</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">日期</h3>
+          <ul class="list-disc list-inside text-gray-600 space-y-2">
+            <li>5月場：2025/05/04 (日)</li>
+            <li>6月場：2026/06/08 (日)</li>
+            <li>7月場：2026/07/13 (日)</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">時間與地點</h3>
+          <p class="text-gray-600 mb-4">下午1:30-4:30</p>
+          <p class="text-gray-600">地點：新店大坪林捷運站附近 (詳細地點於完成報名後提供)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 費用說明 -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-burgundy mb-8">費用說明</h2>
+      
+      <!-- 單場價格 -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h3 class="text-xl font-semibold mb-4">單場價格</h3>
+        
+        <!-- 原價 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div>
+            <h4 class="font-semibold mb-2">原價</h4>
+            <p class="text-3xl text-burgundy font-bold">$6,800</p>
+            <p class="text-gray-600">/ 人</p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">2人同行</h4>
+            <p class="text-3xl text-burgundy font-bold">$5,300</p>
+            <p class="text-gray-600">/ 人</p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">3人(含)以上</h4>
+            <p class="text-3xl text-burgundy font-bold">$4,800</p>
+            <p class="text-gray-600">/ 人</p>
+          </div>
+        </div>
+
+        <!-- 早鳥優惠 -->
+        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+          <h4 class="text-lg font-semibold mb-2">早鳥優惠價 (開課前20天)</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <p class="text-3xl text-burgundy font-bold">$4,800</p>
+              <p class="text-gray-600">單人</p>
+            </div>
+            <div>
+              <p class="text-3xl text-burgundy font-bold">$4,300</p>
+              <p class="text-gray-600">2人同行</p>
+            </div>
+            <div>
+              <p class="text-3xl text-burgundy font-bold">$3,800</p>
+              <p class="text-gray-600">3人(含)以上</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三場套票 -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-semibold mb-4">三場套票</h3>
+        
+        <!-- 原價 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div>
+            <h4 class="font-semibold mb-2">原價</h4>
+            <p class="text-3xl text-burgundy font-bold">$20,400</p>
+            <p class="text-gray-600">/ 人</p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">單人價格</h4>
+            <p class="text-3xl text-burgundy font-bold">$12,800</p>
+            <p class="text-gray-600">/ 人</p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">2人同行</h4>
+            <p class="text-3xl text-burgundy font-bold">$10,800</p>
+            <p class="text-gray-600">/ 人</p>
+          </div>
+        </div>
+
+        <!-- 早鳥優惠 -->
+        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+          <h4 class="text-lg font-semibold mb-2">早鳥優惠價 (需 4/20前完成匯款報名)</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <p class="text-3xl text-burgundy font-bold">$10,800</p>
+              <p class="text-gray-600">單人</p>
+            </div>
+            <div>
+              <p class="text-3xl text-burgundy font-bold">$9,900</p>
+              <p class="text-gray-600">2人同行</p>
+            </div>
+            <div>
+              <p class="text-3xl text-burgundy font-bold">$9,000</p>
+              <p class="text-gray-600">3人以上</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 優惠說明 -->
+        <div class="mt-6">
+          <p class="text-gray-600 mb-4">
+            「一次學會，終身受用！」<br>
+            「三場一起報，省更多！」
+          </p>
+          <p class="text-gray-600 mb-4">
+            單場$4,800起，三場套票平均只要$3,600，早鳥優惠更低至$2,962！<br>
+            三個月全面進化，讓自己從內到外煥然一新，快來加入形象進化之旅！
+          </p>
+          <p class="text-gray-600">
+            「帶上朋友一起玩！」<br>
+            形象提升不孤單，雙人同行或團體報名享更多折扣！<br>
+            帶上朋友一起探索色彩、香氛與自我風格，讓這個夏天充滿美好與自信！
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 報名資訊 -->
+    <section class="mb-16">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-burgundy mb-8">立即報名</h2>
+        <a href="https://forms.gle/BUygNfNQU2YXGyddA" class="inline-block bg-burgundy text-white px-8 py-3 rounded-lg hover:bg-burgundy/90 transition-colors">
+          前往報名
+        </a>
+      </div>
+    </section>
+
+    <!-- 核心理念 -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-burgundy mb-8">好圈圈好感形象學苑</h2>
+      <div class="max-w-3xl mx-auto text-gray-600">
+        <p class="mb-4">
+          核心理念：「讓每個人都能找到自己的光芒，並勇敢地被看見。」
+        </p>
+        <p>
+          創立好圈圈，不是為了讓大家變得一模一樣，而是為了讓每個人都能找到屬於自己的獨特光芒，並且勇敢地讓這份光芒被看見。我希望，透過形象的力量，為這個世界帶來更多的自信、善意與連結。
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .bg-burgundy {
+    background-color: #800020;
+  }
+  .text-burgundy {
+    color: #800020;
+  }
+  .hover\:bg-burgundy\/90:hover {
+    background-color: rgba(128, 0, 32, 0.9);
+  }
+</style>
