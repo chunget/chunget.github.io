@@ -1,24 +1,77 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Image } from 'astro:assets';
 
 const pageTitle = "好感形象派對 | Hooo";
-const pageDescription = "穿出競爭力，玩出影響力！一場專屬於妳的形象派對，從視覺、觸覺到風格，幫助你全面提升形象好感力。";
+const pageDescription = "好感形象派對";
+
+const testimonials = [
+  {
+    name: "小米",
+    role: "企業主",
+    quote: "在好感形象派對中，我學到了如何將專業形象與個人風格完美融合。講師的專業度與說明讓我受益良多。",
+    image: "/images/testimonial1.jpg"
+  },
+  {
+    name: "小芳",
+    role: "職場新鮮人",
+    quote: "透過派對活動，我學會了如何在職場上展現自信與專業。每一堂課程都充滿收穫！",
+    image: "/images/testimonial2.jpg"
+  },
+  {
+    name: "小雪",
+    role: "專業經理人",
+    quote: "講師的指導非常精準，幫助我找到最適合的色彩搭配。現在的我更有自信了！",
+    image: "/images/testimonial3.jpg"
+  }
+];
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <main class="container mx-auto px-4 py-8 min-h-screen">
-    <!-- 頁面標題區 -->
-    <div class="text-center mb-16">
-      <h1 class="text-4xl md:text-5xl font-bold text-burgundy mb-4">好感形象派對</h1>
-      <p class="text-xl text-gray-600">穿出競爭力，玩出影響力！</p>
-      <p class="text-xl text-gray-600 mb-8">一場專屬於妳的形象派對</p>
-    </div>
+  <main class="min-h-screen bg-gradient-to-b from-white to-pink-50">
+    <div class="container mx-auto px-4 py-16">
+      <div class="max-w-6xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+          <h1 class="text-3xl md:text-4xl font-light text-burgundy text-center mb-8">形象進化之旅</h1>
+          <div class="relative rounded-xl overflow-hidden shadow-md">
+            <iframe src="https://gamma.app/embed/qg4lfuljoou9ied" style="width: 100%; height: 800px" allow="fullscreen" title="好感形象派對" class="border-0"></iframe>
+          </div>
+        </div>
 
-    <!-- 活動簡介 -->
-    <section class="mb-16">
-      <div class="max-w-3xl mx-auto">
-        <p class="text-gray-600 leading-relaxed mb-6">
+        <!-- 學員分享 -->
+        <div class="mb-16">
+          <h2 class="text-2xl md:text-3xl font-light text-burgundy text-center mb-12">學員分享</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map(testimonial => (
+              <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="flex items-center mb-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    class="w-12 h-12 rounded-full object-cover border-2 border-pink-200"
+                  />
+                  <div class="ml-4">
+                    <h3 class="font-medium text-gray-900">{testimonial.name}</h3>
+                    <p class="text-sm text-gray-500">{testimonial.role}</p>
+                  </div>
+                </div>
+                <p class="text-gray-600 italic">"{testimonial.quote}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .text-burgundy {
+    color: #800020;
+  }
+  .bg-burgundy {
+    background-color: #800020;
+  }
+</style>
           這是一場結合趣味互動、實用教學與專業指導的活動，幫助妳在工作、社交或商業場合中展現最好的自己。活動中不僅分享形象提升的技巧，更融入派對般的輕鬆氛圍，讓學習充滿樂趣，真正做到「玩中學」。透過專業指導，深入探索屬於妳的形象密碼，從魅力色彩、完美髮型到日常妝容與穿搭技巧，全面打造自信光彩，讓妳在職場與生活中都散發迷人魅力！
         </p>
       </div>
