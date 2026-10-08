@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2C多產品價值鏈 - 互動式架構流程圖</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            oracle: {
+              red: '#C74634',
+              redDark: '#8F1E10',
+              canvas: '#0B0F19',
+              panel: '#151C2C',
+              panelHover: '#1E293B',
+              border: '#334155',
+              borderGlow: '#38BDF8',
+              gold: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Oracle Interactive Poster 經典工程點陣與格線背景 */
+    .oracle-blueprint-bg {
+      background-color: #0b0f19;
+      background-image: 
+        radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.14) 1px, transparent 0),
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 24px 24px, 120px 120px, 120px 120px;
+    }
+
+    /* 橫向資料流動畫 */
+    @keyframes horizontalStream {
+      from { stroke-dashoffset: 48; }
+      to { stroke-dashoffset: 0; }
+    }
+    .flow-stream {
+      stroke-dasharray: 6 6;
+      animation: horizontalStream 1.2s linear infinite;
+    }
+
+    /* 節點被選中/聚焦狀態 (Oracle Hotspot Inspect) */
+    .oracle-node {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .oracle-node:hover {
+      border-color: #38bdf8;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+      transform: translateY(-1px);
+    }
+    .node-active {
+      outline: 2px solid #38bdf8 !important;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.6) !important;
+      background-color: #1e293b !important;
+    }
+    .node-dimmed {
+      opacity: 0.25 !important;
+      filter: grayscale(80%) blur(0.2px);
+    }
+
+    /* 隱藏原生捲軸但維持橫向捲動能力 */
+    .no-scrollbar::-webkit-scrollbar {
+      height: 8px;
+    }
+    .no-scrollbar::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    .no-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .no-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-oracle-canvas text-slate-100 min-h-screen font-sans flex flex-col antialiased selection:bg-rose-600 selection:text-white">
+
+  <!-- 頂部 Oracle Architecture 工具列導航列 -->
+  <header class="w-full bg-slate-900/95 border-b border-slate-800 sticky top-0 z-40 px-4 py-2.5 backdrop-blur-md flex flex-wrap items-center justify-between gap-4 shadow-xl">
+    <div class="flex items-center gap-3">
+      <div class="h-8 px-2.5 rounded bg-oracle-red flex items-center justify-center font-black text-white text-xs tracking-wider font-mono shadow-sm">
+        GIGABYTE
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono font-bold tracking-wider text-rose-300 bg-rose-950/80 px-1.5 py-0.5 rounded border border-rose-800/80"></span>
+          <h1 class="text-sm sm:text-base font-bold text-white tracking-tight">B2C多產品價值鏈 - 互動式架構流程圖 (多產品 ➔ 產銷 ➔ 多業務)</h1>
+        </div>
+        <p class="text-[11px] text-slate-400">橫向端到端架構展示模式 • 點擊熱點即時鑽取詳情 • 依產品線切換專屬 SI 與備料鏈路</p>
+      </div>
+    </div>
+
+    <!-- 產品線橫向切換 (By Product Line Selector) -->
+    <div class="flex items-center gap-1.5 overflow-x-auto py-1">
+      <span class="text-xs text-slate-400 font-medium mr-1 whitespace-nowrap">產品線檢視：</span>
+      <button onclick="setProductFilter('ALL')" id="filter-btn-ALL" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+        全景架構
+      </button>
+      <button onclick="setProductFilter('MONITOR')" id="filter-btn-MONITOR" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-sky-600 text-white border border-sky-400 shadow-md transition">
+        🖥️ Monitor (顯示器)
+      </button>
+      <button onclick="setProductFilter('NB')" id="filter-btn-NB" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+        💻 NB (筆記型電腦)
+      </button>
+      <button onclick="setProductFilter('PC')" id="filter-btn-PC" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+        🖥️ PC (桌上型電腦)
+      </button>
+      <button onclick="setProductFilter('ROBOT')" id="filter-btn-ROBOT" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+        🤖 Robot
+      </button>
+      <button onclick="setProductFilter('MB_VGA')" id="filter-btn-MB_VGA" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+        ⚡ Component (板卡/零組件)
+      </button>
+    </div>
+
+    <!-- 輔助操作 -->
+    <div class="flex items-center gap-2">
+      <button onclick="resetInspection()" class="text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1">
+        <span>🔄</span> 重置高亮
+      </button>
+    </div>
+  </header>
+
+  <!-- 主工作區：左側橫向滾動架構全景圖層 + 右側固定抽屜 -->
+  <main class="flex-1 flex flex-col xl:flex-row w-full mx-auto p-3 sm:p-5 gap-4 overflow-hidden">
+    
+    <!-- 橫向拓撲畫布區域 (可平滑橫滾，完整橫向排布：多產品 ➔ 產銷系統 ➔ 多業務) -->
+    <div id="diagram-scroll-container" class="flex-1 bg-oracle-blueprint-bg border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-2xl relative overflow-x-auto no-scrollbar min-h-[760px]">
+      
+      <!-- 動態 SVG 向量拓撲連線圖層 (絕對定位覆蓋全畫布) -->
+      <svg id="svgOverlay" class="absolute inset-0 w-full h-full pointer-events-none z-10 min-w-[1360px]" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow-sky" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
+          </marker>
+          <marker id="arrow-amber" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f59e0b" />
+          </marker>
+          <marker id="arrow-rose" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f43f5e" />
+          </marker>
+          <marker id="arrow-emerald" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" />
+          </marker>
+        </defs>
+
+        <!-- 橫向連線群組 (依產品線流動) -->
+        <path id="path-sys-sw" d="" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow-sky)" class="transition-all duration-300" />
+        <path id="path-sw-ladder" d="" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow-sky)" class="transition-all duration-300" />
+        <!-- 核心亮點：梯型表提供策採備料 (金黃色垂直指向) -->
+        <path id="path-ladder-procure" d="" fill="none" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow-amber)" class="transition-all duration-300" />
+        <!-- 梯型表連至 SI 協作平台 -->
+        <path id="path-ladder-si" d="" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow-sky)" class="transition-all duration-300" />
+        <!-- 底層 PLM BOM 紅色虛線直通協作平台 BOM. EC. -->
+        <path id="path-plm-bomec" d="" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#arrow-rose)" class="transition-all duration-300" />
+        <!-- SI 協作平台連至銷售多業務 -->
+        <path id="path-si-sales" d="" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow-sky)" class="transition-all duration-300" />
+        <!-- MB/VGA 零組件出貨連線 -->
+        <path id="path-comp2-rolling" d="" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-emerald)" class="transition-all duration-300" />
+        <path id="path-shipping-sales" d="" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-emerald)" class="transition-all duration-300" />
+        <!-- 銷售連至全球通路 -->
+        <path id="path-sales-regions" d="" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-sky)" class="transition-all duration-300" />
+      </svg>
+
+      <!-- 橫向三大核心板塊主容器 (左：多產品 ➔ 中：產銷系統 ➔ 右：多業務) -->
+      <div class="relative z-20 min-w-[1360px] flex flex-col justify-between h-full space-y-5">
+        
+        <!-- 上半段：橫向三大主板塊 (3 Horizontal Pillars) -->
+        <div class="grid grid-cols-12 gap-5 items-stretch">
+
+          <!-- ══════════════════════════════════════════════════════════
+               橫向板塊 1：多產品 (Multi-Product) [col-span-4]
+          ══════════════════════════════════════════════════════════ -->
+          <div class="col-span-4 flex flex-col justify-between bg-slate-900/60 p-4 rounded-xl border border-slate-800 shadow-md">
+            <div>
+              <!-- 頂部標頭：HTML & Gigabyte 品牌 -->
+              <div class="flex items-center justify-between pb-2 mb-3 border-b-2 border-rose-500">
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-mono font-bold text-rose-400 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800"></span>
+                  <h2 class="text-base font-black text-white tracking-wide">
+                    多產品 <span class="text-xs text-slate-400 font-mono font-normal">Multi-Product</span>
+                  </h2>
+                </div>
+                <span class="text-xs font-bold text-rose-300 bg-rose-950/70 border border-rose-800 px-2 py-0.5 rounded">
+                  Gigabyte 品牌
+                </span>
+              </div>
+
+              <!-- 1. System: (NB, PC, Monitor, Robot) + SW 直立框 -->
+              <div class="mb-4">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs font-bold text-sky-400 flex items-center gap-1">
+                    <span>🖥️</span> System (系統整機):
+                  </span>
+                  <span class="text-[10px] text-slate-400 font-mono">硬體 + SW 整合</span>
+                </div>
+
+                <div class="grid grid-cols-12 gap-2">
+                  <!-- 系統整機項目 -->
+                  <div class="col-span-8 p-2.5 bg-slate-950/70 border border-slate-700/80 rounded-xl space-y-1.5 shadow-sm">
+                    <div id="node-item-nb" onclick="inspectElement('NB')" class="oracle-node cursor-pointer p-2 rounded-lg text-xs font-semibold flex items-center justify-between bg-slate-800/90 border border-slate-700 hover:border-sky-400 transition">
+                      <span class="flex items-center gap-1.5"><span>💻</span> NB (筆記型電腦)</span>
+                      <span class="text-[9px] text-slate-400 font-mono">Compal / Dixon</span>
+                    </div>
+
+                    <div id="node-item-pc" onclick="inspectElement('PC')" class="oracle-node cursor-pointer p-2 rounded-lg text-xs font-semibold flex items-center justify-between bg-slate-800/90 border border-slate-700 hover:border-sky-400 transition">
+                      <span class="flex items-center gap-1.5"><span>🖥️</span> PC (桌上型電腦)</span>
+                      <span class="text-[9px] text-slate-400 font-mono">IDC</span>
+                    </div>
+
+                    <div id="node-item-monitor" onclick="inspectElement('MONITOR')" class="oracle-node cursor-pointer p-2 rounded-lg text-xs font-semibold flex items-center justify-between bg-slate-800/90 border border-slate-700 hover:border-sky-400 transition">
+                      <span class="flex items-center gap-1.5"><span>🖥️</span> Monitor (顯示器)</span>
+                      <span class="text-[9px] text-sky-300 font-mono">4 SI 代工</span>
+                    </div>
+
+                    <div id="node-item-robot" onclick="inspectElement('ROBOT')" class="oracle-node cursor-pointer p-2 rounded-lg text-xs font-semibold flex items-center justify-between bg-slate-800/90 border border-slate-700 hover:border-sky-400 transition">
+                      <span class="flex items-center gap-1.5"><span>🤖</span> Robot (智慧機器人)</span>
+                      <span class="text-[9px] text-slate-400 font-mono">AI / 專案</span>
+                    </div>
+                  </div>
+
+                  <!-- SW (軟體/韌體整合框) -->
+                  <div id="node-sw" onclick="inspectElement('SW')" class="oracle-node col-span-4 p-2 bg-slate-950/80 border border-sky-500/70 hover:border-sky-400 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer shadow-md group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">⚙️</span>
+                    <span class="text-sm font-black text-sky-400 font-mono">SW</span>
+                    <span class="text-[10px] text-slate-300 leading-tight mt-1 font-medium">韌體與軟體封裝</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Component 2: (MB, VGA, SSD, DDR, Card) -->
+              <div class="mb-4">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                    <span>⚡</span> Component (板卡與零組件):
+                  </span>
+                  <span class="text-[10px] text-emerald-400 font-mono"> 自製 / 外購</span>
+                </div>
+                <div id="node-comp2" onclick="inspectElement('MB_VGA')" class="oracle-node cursor-pointer p-3 bg-slate-950/70 border-2 border-emerald-600/70 hover:border-emerald-400 rounded-xl space-y-2 text-xs text-slate-200 shadow-sm">
+                  <!-- 主力核心板卡 -->
+                  <div class="grid grid-cols-2 gap-2">
+                    <div class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 font-bold flex items-center justify-between border border-slate-700/70">
+                      <span>MB (主機板)</span>
+                      <span class="text-[9px] bg-emerald-950 text-emerald-300 px-1 rounded border border-emerald-700">主力</span>
+                    </div>
+                  </div>
+                  <!-- 擴充關鍵零組件：SSD, DDR, Card -->
+                  <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+                    <div class="px-2 py-1 rounded bg-slate-800/70 font-semibold flex items-center justify-center text-sky-300 border border-slate-700/80">
+                      💾 SSD
+                    </div>
+                    <div class="px-2 py-1 rounded bg-slate-800/70 font-semibold flex items-center justify-center text-sky-300 border border-slate-700/80">
+                      🧠 DDR
+                    </div>
+                    <div class="px-2 py-1 rounded bg-slate-800/70 font-semibold flex items-center justify-center text-sky-300 border border-slate-700/80">
+                      🔌 Card (擴充卡)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 底層 SRM / PLM (含 PDM, 紅框 BOM, PM) -->
+            <div class="pt-3 border-t border-slate-800">
+              <div class="grid grid-cols-12 gap-2 text-xs">
+                <div id="node-srm" onclick="inspectElement('SRM')" class="oracle-node col-span-4 p-2 bg-slate-950/80 border border-slate-700 rounded-xl flex flex-col items-center justify-center font-bold text-slate-200 cursor-pointer">
+                  <span class="text-sm text-sky-400 font-mono">SRM</span>
+                  <span class="text-[9px] text-slate-400">供應商關係</span>
+                </div>
+
+                <div id="node-plm" onclick="inspectElement('PLM')" class="oracle-node col-span-8 p-2 bg-slate-950/80 border border-slate-700 rounded-xl cursor-pointer">
+                  <div class="flex items-center justify-between mb-1 pb-0.5 border-b border-slate-800">
+                    <span class="font-black text-rose-400 text-xs font-mono">PLM</span>
+                    <span class="text-[9px] text-slate-400 font-mono">生命週期管理</span>
+                  </div>
+                  <div class="grid grid-cols-3 gap-1 text-[10px] text-center font-mono">
+                    <div class="bg-slate-800 rounded py-0.5 text-slate-300">PDM</div>
+                    <!-- 手繪圖標誌性紅框 BOM -->
+                    <div id="node-bom-origin" class="bg-rose-950 border-2 border-rose-500 rounded py-0.5 font-black text-rose-200 shadow-md">
+                      BOM
+                    </div>
+                    <div class="bg-slate-800 rounded py-0.5 text-slate-300">PM</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════
+               橫向板塊 2：產銷系統 (Production & Sales System) [col-span-5]
+          ══════════════════════════════════════════════════════════ -->
+          <div class="col-span-5 flex flex-col justify-between bg-slate-900/60 p-4 rounded-xl border border-slate-800 shadow-md">
+            <div>
+              <!-- 頂部標頭：【內】與【外】區分 -->
+              <div class="flex items-center justify-between pb-2 mb-3 border-b-2 border-amber-500">
+                <div class="flex items-center gap-2">
+                  <h2 class="text-base font-black text-white tracking-wide">
+                    產銷系統 <span class="text-xs text-slate-400 font-mono font-normal">Production & Sales System</span>
+                  </h2>
+                </div>
+                <div class="flex items-center gap-1.5 text-xs font-mono font-bold">
+                  <span class="text-amber-300 px-2 py-0.5 rounded bg-amber-950/70 border border-amber-700">【內】內部運籌</span>
+                  <span class="text-sky-300 px-2 py-0.5 rounded bg-sky-950/70 border border-sky-700">【外】外部協同</span>
+                </div>
+              </div>
+
+              <!-- 上部核心雙軌：梯型表 FCST ➔ 提供策採備料 (左) | 供應鏈協作平台 SI (右) -->
+              <div class="grid grid-cols-12 gap-3 mb-4">
+                
+                <!-- 內部運籌：梯型表 ➔ 策採 -->
+                <div class="col-span-6 flex flex-col gap-2.5">
+                  <!-- 梯型表 FCST DCM Rolling -->
+                  <div id="node-ladder" onclick="inspectElement('LADDER')" class="oracle-node cursor-pointer p-3 bg-slate-950/85 border-2 border-amber-500/80 hover:border-amber-400 rounded-xl shadow-md">
+                    <div class="flex items-center justify-between text-[10px] text-amber-400 font-bold mb-1">
+                      <span>❖ Model / Region</span>
+                      <span class="bg-amber-950 px-1 rounded text-[9px] border border-amber-700">Rolling FCST</span>
+                    </div>
+                    <div class="text-xs sm:text-sm font-black text-white leading-tight">
+                      梯型表 FCST DCM Rolling
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-1">
+                      依機種與區域維度滾動排程
+                    </p>
+                  </div>
+
+                  <!-- 核心作用：策採備料 (金黃垂直指向) -->
+                  <div id="node-procure" onclick="inspectElement('PROCURE')" class="oracle-node cursor-pointer p-3 bg-gradient-to-br from-amber-950/90 to-slate-950 border-2 border-amber-400 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-xs font-black text-amber-300 flex items-center gap-1">
+                        <span>🎯</span> 策採 (策略採購)
+                      </span>
+                      <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-400 text-slate-950 font-black">核心作用</span>
+                    </div>
+                    <div class="text-xs font-bold text-amber-200">
+                      提供策採備料
+                    </div>
+                    <p class="text-[10px] text-amber-200/80 mt-1 leading-tight">
+                      鎖定面板產能、CPU/GPU 等長交期關鍵物料
+                    </p>
+                  </div>
+                </div>
+
+                <!-- 外部協同：供應鏈協作平台 (SI 對接) -->
+                <div id="node-si-platform" onclick="inspectElement('SI_PLATFORM')" class="oracle-node col-span-6 cursor-pointer p-3 bg-slate-950/85 border-2 border-sky-500/80 hover:border-sky-400 rounded-xl shadow-md flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between border-b border-sky-800/60 pb-1 mb-2">
+                      <span class="text-xs font-bold text-sky-300">供應鏈協作平台</span>
+                      <span class="text-[9px] text-slate-400 font-mono bg-sky-950 px-1 rounded">SI 對接中心</span>
+                    </div>
+
+                    <!-- FCST commit, VMI -->
+                    <div class="p-1.5 rounded bg-slate-900 border border-slate-800 text-xs text-slate-200 mb-1.5">
+                      <span class="text-sky-400 font-bold block text-[11px]">• FCST commit, VMI</span>
+                      <span class="text-[10px] text-slate-400">產能排程承諾與供應商庫存管理</span>
+                    </div>
+
+                    <!-- 手繪圖重點紅框 BOM. EC. -->
+                    <div id="node-bom-ec" class="p-1.5 rounded-lg bg-rose-950/70 border-2 border-rose-500 mb-1.5">
+                      <div class="flex items-center justify-between text-xs">
+                        <span class="font-black text-rose-300">• BOM. EC.</span>
+                        <span class="text-[9px] bg-rose-900 text-rose-200 px-1 rounded font-mono">紅框重點</span>
+                      </div>
+                      <span class="text-[10px] text-rose-200/80 block mt-0.5">串接 PLM BOM 與工程變更通知</span>
+                    </div>
+
+                    <!-- API / EDI -->
+                    <div class="text-[11px] font-mono text-slate-400 px-0.5">
+                      • API. EDI 介接通道
+                    </div>
+                  </div>
+
+                  <!-- 當前篩選之 SI 夥伴清單 -->
+                  <div class="mt-2 pt-1.5 border-t border-slate-800">
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-[10px] font-bold text-sky-200">協同 SI 夥伴：</span>
+                      <span id="label-si-count" class="text-[9px] px-1 py-0.2 rounded bg-sky-900 text-sky-200 font-mono">4 家夥伴</span>
+                    </div>
+                    <div id="container-si-tags" class="flex flex-wrap gap-1">
+                      <!-- 動態渲染 SI 標籤 -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 下部：自製零組件發貨鏈 FCST, DCM Rolling ➔ DS. NP ➔ shipping -->
+              <div id="node-comp-chain" onclick="inspectElement('MB_VGA_CHAIN')" class="oracle-node cursor-pointer p-3 bg-slate-950/70 border border-emerald-600/60 hover:border-emerald-400 rounded-xl">
+                <span class="text-[10px] font-mono text-emerald-400 block mb-1.5">板卡自製發貨鏈 (Component 2)：</span>
+                <div class="flex items-center gap-2 text-xs">
+                  <div id="node-comp-rolling" class="p-1.5 rounded bg-slate-800 border border-slate-700 font-bold text-slate-200">
+                    FCST, DCM Rolling
+                  </div>
+                  <span class="text-sky-400 font-black">➔</span>
+                  <div id="node-dsnp" class="p-1.5 rounded bg-slate-800 border border-slate-700 font-mono font-bold text-sky-300">
+                    DS. NP
+                  </div>
+                  <span class="text-sky-400 font-black">➔</span>
+                  <div id="node-shipping" class="p-1.5 rounded bg-emerald-950 border-2 border-emerald-500 font-mono font-black text-emerald-300">
+                    shipping (出貨)
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 底層平台 B2C + BI / 1000 E+ 系統 -->
+            <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400 font-mono">
+              <span class="bg-slate-950 px-2 py-0.5 rounded border border-slate-800">B2C + BI</span>
+              <span class="text-slate-300 font-bold">1000 E+ 系統</span>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════
+               橫向板塊 3：多業務 (Multi-Business) [col-span-3]
+          ══════════════════════════════════════════════════════════ -->
+          <div class="col-span-3 flex flex-col justify-between bg-slate-900/60 p-4 rounded-xl border border-slate-800 shadow-md">
+            <div>
+              <!-- 頂部標頭 -->
+              <div class="flex items-center justify-between pb-2 mb-3 border-b-2 border-emerald-500">
+                <div class="flex items-center gap-2">
+                  <h2 class="text-base font-black text-white tracking-wide">
+                    多業務 <span class="text-xs text-slate-400 font-mono font-normal">Multi-Business</span>
+                  </h2>
+                </div>
+                <span class="text-emerald-400 text-xs font-mono font-bold">全球通路與營運</span>
+              </div>
+
+              <!-- 銷售 / 庫存 / AR -->
+              <div id="node-sales" onclick="inspectElement('SALES')" class="oracle-node cursor-pointer p-3 bg-slate-950/85 border-2 border-emerald-500/80 hover:border-emerald-400 rounded-xl shadow-md mb-3">
+                <h3 class="text-xs font-black text-emerald-300 border-b border-slate-800 pb-1 mb-2 flex items-center justify-between">
+                  <span>銷售 / 庫存 / AR</span>
+                  <span class="text-[9px] text-slate-400 font-mono">應收帳款管理</span>
+                </h3>
+                
+                <div class="space-y-1.5 text-xs">
+                  <!-- 行動: Sales App -->
+                  <div class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <span class="font-bold text-sky-300 mr-1">行動:</span>
+                      <span class="text-slate-200">Sales App</span>
+                    </div>
+                    <span class="text-[9px] text-slate-400 font-mono">即時查價/下單</span>
+                  </div>
+
+                  <!-- 智能: Sales agent -->
+                  <div class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <span class="font-bold text-emerald-300 mr-1">智能:</span>
+                      <span class="text-slate-200">Sales agent</span>
+                    </div>
+                    <span class="text-[9px] text-slate-400 font-mono">AI 業務助理</span>
+                  </div>
+
+                  <!-- 工具: cashback, 積點成金 -->
+                  <div class="p-1.5 rounded bg-slate-900 border border-slate-800">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-amber-300 mr-1">工具:</span>
+                      <span class="text-slate-200 font-medium">cashback, 積點成金</span>
+                    </div>
+                    <span class="text-[9px] text-slate-400 block mt-0.5">通路激勵與返利管理</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 全球營運據點 HQ / US / CN -->
+              <div id="node-regions" onclick="inspectElement('REGIONS')" class="oracle-node cursor-pointer p-3 bg-slate-950/85 border-2 border-slate-700 hover:border-sky-400 rounded-xl shadow-md">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-slate-800 pb-1 mb-2">
+                  <span>全球營運渠道</span>
+                  <span class="text-[9px] text-slate-400 font-mono">AP2 / ED2 / Portal</span>
+                </div>
+
+                <div class="space-y-1 text-xs">
+                  <div class="p-1.5 rounded bg-slate-900 border border-slate-800/80 flex items-center justify-between">
+                    <span class="font-bold text-slate-200 flex items-center gap-1">🏢 HQ:</span>
+                    <span class="text-[9px] text-sky-400 font-mono">總部戰情中心</span>
+                  </div>
+                  <div class="p-1.5 rounded bg-slate-900 border border-slate-800/80 flex items-center justify-between">
+                    <span class="font-bold text-slate-200 flex items-center gap-1">🇺🇸 US:</span>
+                    <span class="font-mono text-emerald-400 text-[10px]">AP2 / ED2</span>
+                  </div>
+                  <div class="p-1.5 rounded bg-slate-900 border border-slate-800/80 flex items-center justify-between">
+                    <span class="font-bold text-slate-200 flex items-center gap-1">🇨🇳 CN:</span>
+                    <span class="font-mono text-amber-400 text-[10px]">AP2 / ED2, CN portal</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 底層 B2C + BI 與 BCP -->
+            <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+              <span class="font-mono text-slate-400">B2C + BI</span>
+              <div id="node-bcp" onclick="inspectElement('BCP')" class="oracle-node cursor-pointer flex items-center gap-1.5 p-1 rounded hover:bg-slate-800">
+                <span class="px-2 py-0.5 rounded bg-rose-950 border border-rose-600 text-rose-300 font-black font-mono text-[11px]">BCP</span>
+                <span class="text-[10px] text-rose-300 font-medium">(業務持續運作計畫)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 下半段：橫貫全域之底層支撐架構標誌 (Bottom Backbone Banner) -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl px-4 py-2.5 flex items-center justify-between text-xs text-slate-400 font-mono">
+          <div class="flex items-center gap-3">
+            <span class="text-rose-400 font-bold">● 底層企業架構支撐</span>
+            <span>SRM ➔ PLM (PDM / BOM / PM)</span>
+            <span>•</span>
+            <span class="text-sky-300">B2C + BI 商務智慧分析平台</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-amber-300">1000 E+ 系統整合基座</span>
+            <span>•</span>
+            <span class="text-rose-300 font-bold">BCP (企業持續運作計畫)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         右側：Oracle 架構圖風格的詳細鑽取抽屜 (Interactive Inspection Panel)
+    ════════════════════════════════════════════════════════════════════ -->
+    <aside class="w-full xl:w-[410px] bg-oracle-panel border border-slate-800 rounded-2xl p-5 shadow-2xl flex flex-col justify-between shrink-0">
+      <div>
+        <!-- 抽屜頂部標題與狀態標籤 -->
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2.5">
+            <span id="inspect-icon" class="text-2xl p-2 rounded-xl bg-slate-800 border border-slate-700">🖥️</span>
+            <div>
+              <span class="text-[10px] font-mono text-sky-400 uppercase tracking-widest block" id="inspect-category">MODULE DETAIL</span>
+              <h3 id="inspect-title" class="text-base font-black text-white">Monitor (顯示器) 產銷鏈</h3>
+            </div>
+          </div>
+          <span id="inspect-badge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-950 text-sky-300 border border-sky-600/40">
+            System
+          </span>
+        </div>
+
+        <!-- 說明文字主體 (Oracle Quick Reference 樣式) -->
+        <div class="space-y-3.5 text-xs text-slate-300">
+          <div>
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">功能描述 (Description)</span>
+            <p id="inspect-desc" class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 leading-relaxed text-slate-200">
+              顯示器產品線經由 SW 整合後，由「梯型表 FCST DCM Rolling」按 Model 與 Region 滾動預測。梯型表的核心作用是直接向「策採」提供備料依據，並透過外部 SI 供應鏈協作平台對接 4 大代工廠。
+            </p>
+          </div>
+
+          <!-- 關聯整合對象 / 合作夥伴 (SI Partners) -->
+          <div>
+            <span id="inspect-partner-title" class="text-[11px] font-bold text-sky-300 uppercase tracking-wider block mb-1">供應鏈整合夥伴 (SI Partners)</span>
+            <div id="inspect-partner-content" class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+              <!-- 動態渲染 SI 清單 -->
+            </div>
+          </div>
+
+          <!-- 關鍵商業邏輯 (Business Logic) -->
+          <div>
+            <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block mb-1">核心商業邏輯 (Core Logic)</span>
+            <div id="inspect-logic-content" class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-amber-200/90 leading-relaxed">
+              • 梯型表主要的作用是提供策採備料，預先鎖定長交期戰略料件。<br>
+              • PLM 底層 BOM 透過紅色虛線直接同步至外部協作平台的 BOM. EC.。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 抽屜底部操作提示列 -->
+      <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+        <span class="text-[11px]">💡 點選任一節點可即時穿透鑽研細節</span>
+        <button onclick="flashActiveChain()" class="px-2.5 py-1 rounded bg-sky-950 hover:bg-sky-900 text-sky-300 border border-sky-700/60 transition">
+          閃爍聚焦鏈路
+        </button>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    // ════════════════════════════════════════════════════════════════════
+    // 架構模型資料字典 (符合產品線維度、SI 清單、策採備料核心與 Oracle 鑽研定義)
+    // ════════════════════════════════════════════════════════════════════
+    const architectureDB = {
+      // 產品線定義
+      products: {
+        MONITOR: {
+          name: 'Monitor (顯示器)',
+          icon: '🖥️',
+          category: 'System 產品線',
+          siList: [
+            { name: 'TPV (冠捷科技)', status: 'Active', note: '主力量產代工' },
+            { name: 'MOKA (茂佳科技)', status: 'Active', note: '主流機種與電競' },
+            { name: 'CTX (中強光電)', status: 'Active', note: '高階客製機種' },
+            { name: 'KTC (康冠科技)', status: 'Ongoing', note: '新專案試產對接中' }
+          ],
+          activeNodes: ['node-item-monitor', 'node-sw', 'node-ladder', 'node-procure', 'node-si-platform', 'node-bom-origin', 'node-bom-ec', 'node-sales', 'node-regions'],
+          activePaths: ['path-sys-sw', 'path-sw-ladder', 'path-ladder-procure', 'path-ladder-si', 'path-plm-bomec', 'path-si-sales', 'path-sales-regions'],
+          desc: '顯示器產品線具備多元外包體系，透過內部梯型表（Model / Region）滾動預測。梯型表的核心使命在於直接向「策採」提供備料依據，提早向原廠鎖定面板 Open Cell、Scaler IC 配額。',
+          logic: '• 梯型表核心作用：提供策採備料，防範面板波動缺料。<br>• 外部協作平台：對接 4 大 SI 代工廠（TPV/MOKA/CTX/KTC）落實 FCST commit 與 VMI。<br>• BOM. EC.：PLM BOM 以紅虛線直接同步至工廠端。'
+        },
+        NB: {
+          name: 'NB (筆記型電腦)',
+          icon: '💻',
+          category: 'System 產品線',
+          siList: [
+            { name: 'Compal (仁寶電腦)', status: 'Active', note: '主力筆電代工製造' },
+            { name: 'Dixon', status: 'Ongoing', note: '在地化新專案導入中' }
+          ],
+          activeNodes: ['node-item-nb', 'node-sw', 'node-ladder', 'node-procure', 'node-si-platform', 'node-bom-origin', 'node-bom-ec', 'node-sales', 'node-regions'],
+          activePaths: ['path-sys-sw', 'path-sw-ladder', 'path-ladder-procure', 'path-ladder-si', 'path-plm-bomec', 'path-si-sales', 'path-sales-regions'],
+          desc: 'NB 產品線依賴高階運算晶片與輕薄機構件。梯型表滾動預測 CPU、GPU 與高刷新率螢幕配額，提供策採向晶片原廠進行戰略性鎖料。',
+          logic: '• 梯型表核心作用：提供策略採購提前鎖定 CPU/GPU/DRAM 長交期料件。<br>• 外部協作：Compal 與 Dixon (Ongoing) 雙代工廠進行產能排程與 VMI Hub 管理。'
+        },
+        PC: {
+          name: 'PC (桌上型電腦)',
+          icon: '🖥️',
+          category: 'System 產品線',
+          siList: [
+            { name: 'IDC', status: 'Active', note: '整機系統組裝整合廠' }
+          ],
+          activeNodes: ['node-item-pc', 'node-sw', 'node-ladder', 'node-procure', 'node-si-platform', 'node-bom-origin', 'node-bom-ec', 'node-sales', 'node-regions'],
+          activePaths: ['path-sys-sw', 'path-sw-ladder', 'path-ladder-procure', 'path-ladder-si', 'path-plm-bomec', 'path-si-sales', 'path-sales-regions'],
+          desc: '套裝電競整機組裝，整合技嘉自製 MB/VGA 與外購電源、水冷機構件。',
+          logic: '• 梯型表核心作用：提供策採備料，平衡自有板卡與外採零組件。<br>• SI 協作：由 IDC 負責整機組裝與測試出貨對接。'
+        },
+        ROBOT: {
+          name: 'Robot (智慧機器人)',
+          icon: '🤖',
+          category: 'System 產品線',
+          siList: [
+            { name: '客製前瞻 SI / 專案協力廠', status: 'Active', note: 'AI 邊緣運算整合' }
+          ],
+          activeNodes: ['node-item-robot', 'node-sw', 'node-ladder', 'node-procure', 'node-si-platform', 'node-bom-origin', 'node-bom-ec', 'node-sales', 'node-regions'],
+          activePaths: ['path-sys-sw', 'path-sw-ladder', 'path-ladder-procure', 'path-ladder-si', 'path-plm-bomec', 'path-si-sales'],
+          desc: '前瞻 AI 邊緣運算機器人，軟體 (SW) 演算法與控制韌體深度封裝，採專案型訂單驅動長交期伺服馬達與晶片備料。',
+          logic: '• 梯型表核心作用：專案式滾動排程，精準提供專用料策採備料。<br>• SW 與 BOM. EC. 版本一致性控管。'
+        },
+        MB_VGA: {
+          name: 'Component (板卡與零組件)',
+          icon: '⚡',
+          category: 'Component 自製主力',
+          siList: [
+            { name: '技嘉直營廠 (南平廠 / 東莞廠)', status: 'Active', note: '直營主力高階 SMT 產線' }
+          ],
+          activeNodes: ['node-comp2', 'node-srm', 'node-plm', 'node-bom-origin', 'node-comp-chain', 'node-comp-rolling', 'node-dsnp', 'node-shipping', 'node-sales', 'node-regions'],
+          activePaths: ['path-comp2-rolling', 'path-shipping-sales', 'path-sales-regions'],
+          desc: '涵蓋 MB (主機板)、SSD、DDR、Card (擴充卡) 等關鍵零組件！直接走 FCST, DCM Rolling 直推 DS. NP 排產，產出後經由 shipping (出貨) 進入全球銷售/庫存/AR 體系。',
+          logic: '• 產品組合：包含 MB、SSD、DDR 記憶體及各類擴充卡。<br>• 發貨流：FCST, DCM Rolling ➔ DS. NP ➔ shipping ➔ 銷售/庫存/AR。'
+        }
+      },
+
+      // 個別熱點模組定義 (點擊 Hotspot 時檢查)
+      nodes: {
+        'LADDER': {
+          title: '梯型表 FCST DCM Rolling',
+          category: '產銷系統 - 內部運籌【內】',
+          icon: '📊',
+          desc: '以 Model（機種）與 Region（全球區域）為雙軸進行多週期的滾動預測排程（Rolling Forecast）。',
+          partnerTitle: '核心輸出流向與作用',
+          partnerContent: '<span class="text-amber-300 font-bold">1. 主要作用：直接提供策採備料</span><br><span class="text-sky-300 font-bold">2. 外部承諾：提供 SI 協作平台進行 FCST commit</span>',
+          logic: '圖中以顯著垂直箭頭直指「策採」，代表滾動預測的首要目標是產出長交期零組件的戰略採購指引，防止市場缺料。'
+        },
+        'PROCURE': {
+          title: '策採 (策略採購備料)',
+          category: '產銷系統 - 戰略備料核心',
+          icon: '🎯',
+          desc: '承接梯型表展開之料況需求，提前針對長交期（Long Lead-Time）之戰略零組件進行產能鎖定與預付備料。',
+          partnerTitle: '各產品線重點備料品類',
+          partnerContent: '• 顯示器：Open Cell 面板、Scaler IC<br>• 筆記型電腦：CPU、GPU、DRAM/SSD<br>• 電腦整機：大瓦數電源、水冷散熱機構<br>• 零組件：PCB、記憶體顆粒 (DRAM/NAND Flash)、Controller IC',
+          logic: '手繪架構圖特別強調「提供策採備料」，是串聯前端滾動預測與後端原廠供應的關鍵錨點。'
+        },
+        'SI_PLATFORM': {
+          title: '供應鏈協作平台 (SI)',
+          category: '產銷系統 - 外部協同【外】',
+          icon: '🌐',
+          desc: '技嘉與各產品線 SI（System Integrator / 代工廠）間的 B2B 雲端協同中樞，透過 API 及 EDI 進行即時資訊同步。',
+          partnerTitle: '已納入協作體系之 SI 清單',
+          partnerContent: '• Monitor: TPV, MOKA, CTX, KTC (Ongoing)<br>• NB: Compal, Dixon (Ongoing)<br>• PC: IDC',
+          logic: '平台落實 FCST commit（產能排程承諾）與 VMI（供應商管理庫存），並接收 PLM 傳輸之 BOM. EC. 工程資料。'
+        },
+        'BOM_EC': {
+          title: 'BOM. EC. (工程清單與變更)',
+          category: '外部協同 - 紅框核心',
+          icon: '📋',
+          desc: '手繪架構圖中以「紅框」特別標示！代表產品工程用料清單（BOM）與工程變更通知（EC, Engineering Change）。',
+          partnerTitle: '跨系統資料鏈路',
+          partnerContent: '• 上游來源：PLM / PDM / BOM (紅色虛線直通)<br>• 下游對象：各產品線 SI 代工廠生產線',
+          logic: '特別以紅色虛線連接左下方 PLM BOM 到中央協作平台的 BOM. EC.，確保工廠生產規格與研發版本零時差。'
+        },
+        'SW': {
+          title: 'SW (軟體與韌體封裝)',
+          category: '多產品 - 系統整合',
+          icon: '⚙️',
+          desc: '串接 NB、PC、Monitor、Robot 等整機設備之 BIOS、韌體、驅動程式與控制演算法。',
+          partnerTitle: '整合範圍',
+          partnerContent: '• Monitor：OSD 韌體、色彩調校配置<br>• NB/PC：GCC (技嘉控制中心) 軟體預裝<br>• Robot：AI 邊緣運算與運動控制韌體',
+          logic: '直立跨越所有整機系統，再統一匯入梯型表排程。'
+        },
+        'SALES': {
+          title: '銷售 / 庫存 / AR',
+          category: '多業務 - 通路營運',
+          icon: '💰',
+          desc: '全球業務出貨後的銷售監控、通路即時庫存平衡與應收帳款（AR）對帳營運中心。',
+          partnerTitle: '數位化業務工具賦能',
+          partnerContent: '• 行動端：Sales App (即時查詢庫存與下單)<br>• 智能端：Sales agent (AI 業務助手)<br>• 工具端：cashback, 積點成金 (通路返利激勵)',
+          logic: '承接協作平台之代工整機出貨與自製板卡 shipping，並輸出至總部與各區域節點。'
+        },
+        'REGIONS': {
+          title: '全球營運渠道 (HQ / US / CN)',
+          category: '多業務 - 實體/虛擬節點',
+          icon: '🌍',
+          desc: '技嘉全球營運的落地入口，涵蓋總部戰情中心與美洲、中國等核心市場渠道。',
+          partnerTitle: '渠道系統對接架構',
+          partnerContent: '• HQ：全球營運總部核心控管<br>• US：AP2 / ED2 系統通道<br>• CN：AP2 / ED2、CN portal 電商通路入口',
+          logic: '所有出貨與營運資訊在此匯整，並回饋回前端梯型表進行次週期滾動預測。'
+        },
+        'BCP': {
+          title: 'BCP (業務持續運作計畫)',
+          category: '系統底層 - 風險韌性',
+          icon: '🛡️',
+          desc: 'Business Continuity Planning。當遭遇供應鏈中斷、地緣政治、資安或產能突發事件時的備援方案。',
+          partnerTitle: '韌性架構措施',
+          partnerContent: '• 多元 SI 備援 (如 Monitor 導入 4 家、NB 雙代工廠)<br>• VMI Hub 戰略安全庫存調節<br>• 跨區域系統異地備援',
+          logic: '標註於手繪圖右下方，為多業務與 1000 E+ 系統的基石保障。'
+        }
+      }
+    };
+
+    let currentProduct = 'MONITOR';
+
+    // 產品線篩選函數
+    function setProductFilter(productKey) {
+      currentProduct = productKey;
+
+      // 1. 更新篩選標籤按鈕樣式
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-sky-600', 'text-white', 'border-sky-400', 'shadow-md');
+        btn.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
+      });
+      const activeBtn = document.getElementById(`filter-btn-${productKey}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
+        activeBtn.classList.add('bg-sky-600', 'text-white', 'border-sky-400', 'shadow-md');
+      }
+
+      // 2. 更新節點透明度與高亮狀態
+      updateCanvasNodes(productKey);
+
+      // 3. 更新中間協作平台 SI 標籤
+      updateSITags(productKey);
+
+      // 4. 重繪 SVG 橫向拓撲箭頭
+      setTimeout(renderSvgConnections, 40);
+
+      // 5. 更新右側抽屜
+      if (productKey !== 'ALL') {
+        inspectProduct(productKey);
+      }
+    }
+
+    // 更新畫布節點可見度
+    function updateCanvasNodes(productKey) {
+      const allNodes = document.querySelectorAll('.oracle-node');
+      
+      if (productKey === 'ALL') {
+        allNodes.forEach(node => node.classList.remove('node-dimmed', 'node-active'));
+        return;
+      }
+
+      const prodData = architectureDB.products[productKey];
+      if (!prodData) return;
+
+      allNodes.forEach(node => {
+        if (prodData.activeNodes.includes(node.id)) {
+          node.classList.remove('node-dimmed');
+        } else {
+          node.classList.add('node-dimmed');
+          node.classList.remove('node-active');
+        }
+      });
+    }
+
+    // 更新中間 SI 標籤列表
+    function updateSITags(productKey) {
+      const container = document.getElementById('container-si-tags');
+      const countLabel = document.getElementById('label-si-count');
+      container.innerHTML = '';
+
+      if (productKey === 'ALL') {
+        countLabel.innerText = '綜合 SI 體系';
+        container.innerHTML = `
+          <span class="text-[10px] text-sky-300 bg-sky-950/80 px-1.5 py-0.5 rounded border border-sky-800">Monitor: 4 SI</span>
+          <span class="text-[10px] text-sky-300 bg-sky-950/80 px-1.5 py-0.5 rounded border border-sky-800">NB: 2 SI</span>
+          <span class="text-[10px] text-sky-300 bg-sky-950/80 px-1.5 py-0.5 rounded border border-sky-800">PC: IDC</span>
+        `;
+        return;
+      }
+
+      const prod = architectureDB.products[productKey];
+      if (!prod || !prod.siList) {
+        countLabel.innerText = '自製產線';
+        container.innerHTML = `<span class="text-[10px] text-emerald-300 bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-800">南平/東莞直營工廠</span>`;
+        return;
+      }
+
+      countLabel.innerText = `${prod.siList.length} 家代工夥伴`;
+      prod.siList.forEach(si => {
+        const isOngoing = si.status === 'Ongoing';
+        const tag = document.createElement('div');
+        tag.className = `px-1.5 py-0.5 rounded text-[10px] font-medium border flex items-center gap-1 ${
+          isOngoing 
+            ? 'bg-amber-950/60 border-amber-600/70 text-amber-300' 
+            : 'bg-sky-950/80 border-sky-600/70 text-sky-200'
+        }`;
+        tag.innerHTML = `
+          <span>${si.name}</span>
+          <span class="text-[8px] px-1 rounded ${isOngoing ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-sky-600 text-white'}">${si.status}</span>
+        `;
+        container.appendChild(tag);
+      });
+    }
+
+    // 檢視產品詳情
+    function inspectProduct(prodKey) {
+      const prod = architectureDB.products[prodKey];
+      if (!prod) return;
+
+      document.getElementById('inspect-icon').innerText = prod.icon;
+      document.getElementById('inspect-category').innerText = prod.category;
+      document.getElementById('inspect-title').innerText = prod.name;
+      document.getElementById('inspect-badge').innerText = 'Product Focus';
+      document.getElementById('inspect-desc').innerText = prod.desc;
+
+      document.getElementById('inspect-partner-title').innerText = '供應鏈整合夥伴 (SI Partners)';
+      let siHtml = '';
+      prod.siList.forEach(si => {
+        const ongoing = si.status === 'Ongoing';
+        siHtml += `
+          <div class="flex items-center justify-between text-[11px] p-1.5 rounded bg-slate-900 border border-slate-800">
+            <span class="font-bold ${ongoing ? 'text-amber-300' : 'text-sky-300'}">${si.name}</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] text-slate-400">${si.note}</span>
+              <span class="text-[9px] px-1 rounded ${ongoing ? 'bg-amber-500/20 text-amber-300 border border-amber-600' : 'bg-sky-950 text-sky-300 border border-sky-700'}">${si.status}</span>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('inspect-partner-content').innerHTML = siHtml;
+      document.getElementById('inspect-logic-content').innerHTML = prod.logic;
+    }
+
+    // 點擊任意熱點元件 (Oracle Element Inspect)
+    function inspectElement(nodeKey) {
+      document.querySelectorAll('.oracle-node').forEach(n => n.classList.remove('node-active'));
+
+      if (architectureDB.products[nodeKey]) {
+        setProductFilter(nodeKey);
+        return;
+      }
+
+      const nodeData = architectureDB.nodes[nodeKey];
+      if (!nodeData) return;
+
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('node-active');
+      }
+
+      document.getElementById('inspect-icon').innerText = nodeData.icon;
+      document.getElementById('inspect-category').innerText = nodeData.category;
+      document.getElementById('inspect-title').innerText = nodeData.title;
+      document.getElementById('inspect-badge').innerText = 'Hotspot Inspect';
+      document.getElementById('inspect-desc').innerText = nodeData.desc;
+      document.getElementById('inspect-partner-title').innerText = nodeData.partnerTitle;
+      document.getElementById('inspect-partner-content').innerHTML = nodeData.partnerContent;
+      document.getElementById('inspect-logic-content').innerHTML = nodeData.logic;
+    }
+
+    function resetInspection() {
+      setProductFilter('MONITOR');
+    }
+
+    function flashActiveChain() {
+      const activeNodes = document.querySelectorAll('.oracle-node:not(.node-dimmed)');
+      activeNodes.forEach(node => {
+        node.classList.add('node-active');
+        setTimeout(() => node.classList.remove('node-active'), 1000);
+      });
+    }
+
+    // 計算兩個元素之間的橫向/垂直平滑貝茲曲線
+    function calcPath(fromId, toId, fromEdge = 'right', toEdge = 'left') {
+      const overlay = document.getElementById('svgOverlay').getBoundingClientRect();
+      const elFrom = document.getElementById(fromId);
+      const elTo = document.getElementById(toId);
+
+      if (!elFrom || !elTo) return '';
+
+      const r1 = elFrom.getBoundingClientRect();
+      const r2 = elTo.getBoundingClientRect();
+
+      let x1, y1, x2, y2;
+
+      if (fromEdge === 'right') {
+        x1 = r1.right - overlay.left;
+        y1 = r1.top + r1.height / 2 - overlay.top;
+      } else if (fromEdge === 'bottom') {
+        x1 = r1.left + r1.width / 2 - overlay.left;
+        y1 = r1.bottom - overlay.top;
+      } else if (fromEdge === 'left') {
+        x1 = r1.left - overlay.left;
+        y1 = r1.top + r1.height / 2 - overlay.top;
+      } else {
+        x1 = r1.left + r1.width / 2 - overlay.left;
+        y1 = r1.top - overlay.top;
+      }
+
+      if (toEdge === 'left') {
+        x2 = r2.left - overlay.left;
+        y2 = r2.top + r2.height / 2 - overlay.top;
+      } else if (toEdge === 'top') {
+        x2 = r2.left + r2.width / 2 - overlay.left;
+        y2 = r2.top - overlay.top;
+      } else if (toEdge === 'right') {
+        x2 = r2.right - overlay.left;
+        y2 = r2.top + r2.height / 2 - overlay.top;
+      } else {
+        x2 = r2.left + r2.width / 2 - overlay.left;
+        y2 = r2.bottom - overlay.top;
+      }
+
+      const dx = Math.abs(x2 - x1) * 0.45;
+      const dy = Math.abs(y2 - y1) * 0.45;
+
+      if (fromEdge === 'bottom' && toEdge === 'top') {
+        return `M ${x1} ${y1} C ${x1} ${y1 + dy}, ${x2} ${y2 - dy}, ${x2} ${y2}`;
+      } else if (fromEdge === 'right' && toEdge === 'left') {
+        return `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+      } else {
+        return `M ${x1} ${y1} L ${x2} ${y2}`;
+      }
+    }
+
+    // 重新繪製橫向拓撲連線
+    function renderSvgConnections() {
+      let sysId = 'node-item-monitor';
+      if (currentProduct === 'NB') sysId = 'node-item-nb';
+      else if (currentProduct === 'PC') sysId = 'node-item-pc';
+      else if (currentProduct === 'ROBOT') sysId = 'node-item-robot';
+
+      // 橫向主鏈路連線
+      document.getElementById('path-sys-sw').setAttribute('d', calcPath(sysId, 'node-sw', 'right', 'left'));
+      document.getElementById('path-sw-ladder').setAttribute('d', calcPath('node-sw', 'node-ladder', 'right', 'left'));
+      
+      // 梯型表 ➔ 策採 (垂直金黃核心指向)
+      document.getElementById('path-ladder-procure').setAttribute('d', calcPath('node-ladder', 'node-procure', 'bottom', 'top'));
+      
+      // 梯型表 ➔ SI 協作平台
+      document.getElementById('path-ladder-si').setAttribute('d', calcPath('node-ladder', 'node-si-platform', 'right', 'left'));
+
+      // 手繪圖紅虛線：底層 PLM BOM ➔ 協作平台 BOM.EC
+      document.getElementById('path-plm-bomec').setAttribute('d', calcPath('node-bom-origin', 'node-bom-ec', 'right', 'left'));
+
+      // 協作平台 ➔ 多業務 (銷售/庫存/AR)
+      document.getElementById('path-si-sales').setAttribute('d', calcPath('node-si-platform', 'node-sales', 'right', 'left'));
+
+      // 零組件出貨連線
+      document.getElementById('path-comp2-rolling').setAttribute('d', calcPath('node-comp2', 'node-comp-rolling', 'right', 'left'));
+      document.getElementById('path-shipping-sales').setAttribute('d', calcPath('node-shipping', 'node-sales', 'right', 'bottom'));
+
+      // 銷售 ➔ 全球區域
+      document.getElementById('path-sales-regions').setAttribute('d', calcPath('node-sales', 'node-regions', 'bottom', 'top'));
+
+      // 啟動動態光流
+      const allPaths = ['path-sys-sw', 'path-sw-ladder', 'path-ladder-procure', 'path-ladder-si', 'path-plm-bomec', 'path-si-sales', 'path-comp2-rolling', 'path-shipping-sales', 'path-sales-regions'];
+      allPaths.forEach(id => {
+        const p = document.getElementById(id);
+        if (p) p.classList.remove('flow-stream');
+      });
+
+      if (['MONITOR', 'NB', 'PC', 'ROBOT'].includes(currentProduct)) {
+        document.getElementById('path-sw-ladder').classList.add('flow-stream');
+        document.getElementById('path-ladder-procure').classList.add('flow-stream');
+        document.getElementById('path-ladder-si').classList.add('flow-stream');
+        document.getElementById('path-si-sales').classList.add('flow-stream');
+        document.getElementById('path-plm-bomec').classList.add('flow-stream');
+      } else if (currentProduct === 'MB_VGA') {
+        document.getElementById('path-comp2-rolling').classList.add('flow-stream');
+        document.getElementById('path-shipping-sales').classList.add('flow-stream');
+      } else {
+        document.getElementById('path-ladder-procure').classList.add('flow-stream');
+        document.getElementById('path-si-sales').classList.add('flow-stream');
+        document.getElementById('path-shipping-sales').classList.add('flow-stream');
+      }
+    }
+
+    // 視窗 resize 與內部橫滾時重新定位連線
+    window.addEventListener('resize', renderSvgConnections);
+    document.getElementById('diagram-scroll-container').addEventListener('scroll', renderSvgConnections);
+
+    // 頁面加載完成初始化
+    window.addEventListener('load', () => {
+      setProductFilter('MONITOR');
+    });
+  </script>
+</body>
+</html>
